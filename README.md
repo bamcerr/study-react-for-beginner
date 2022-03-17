@@ -1,4 +1,8 @@
 # Getting Started with Create React App
+```
+$ yarn create react-app react-for-starter
+$ yarn add prop-types
+```
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
