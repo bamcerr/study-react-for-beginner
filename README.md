@@ -3,6 +3,7 @@
 $ yarn create react-app react-for-starter
 $ yarn add prop-types
 $ yarn add react-router-dom
+$ yarn add gh-page
 ```
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

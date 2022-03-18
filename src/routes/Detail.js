@@ -27,7 +27,7 @@ function Detail() {
                 <span>{movie.runtime}</span>&nbsp;
                 <span>{movie.like_count}</span>&nbsp;
                 {
-                    movie.genres.map((item) => (<span key={item}>{item}&nbsp;</span>))
+                    movie.genres?.map((item) => (<span key={item}>{item}&nbsp;</span>))
                 }
             </p>
             <div>
