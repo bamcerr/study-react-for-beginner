@@ -1,39 +1,56 @@
 
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
 
 function App() {
-  const [toDo, setToDo] = useState("");
-  const [toDos, setToDos] = useState([]);
-  const onChange = (event) => setToDo(event.target.value);
-  const onSubmit = (event) => { 
-    event.preventDefault();
-    if(toDo === "") {
-      return;
-    }
-    setToDos(currentArray => [toDo, ...currentArray]);
-    setToDo("");
+  const [value, setValue] = useState("");
+  const [select, setSelect] = useState({})
+  const [loading, setLoading] = useState(true);
+  const [coins, setCoins] = useState([]);
+
+  const onChange = (event) => {
+    setValue(event.target.value)
   }
-  console.log(toDos);
-  
- return (
-  <div>
-    <h1>My To Dos ({toDos.length})</h1>
-    <form onSubmit={onSubmit}>
-      <input 
-        value={toDo}
-        onChange={onChange} 
-        type="text" 
-        placeholder="Write your to do..." 
-      />
-      <button>Add To Do</button>
-    </form>
-    <hr />
-    {
-      toDos.map((item, index) => <li key={index} >{item}</li>)
-    }
-  </div>
- )
+
+  const onChange2 = (event) => {
+    setSelect(event.target.value)
+  }
+
+  useEffect(() => {
+    fetch("https://api.coinpaprika.com/v1/tickers")
+    .then((response) => response.json())
+    .then((json) => {
+      console.log(json);
+      setCoins(json);
+      setLoading(false);
+      setSelect(0)
+    });
+  }, []);
+  return (
+    <div>
+      <h1>The Coins! ({coins.length})</h1>
+      { loading 
+        ? <strong>Loading...</strong> 
+        : 
+          <>
+            <input value={value} onChange={onChange} type="number" />$
+            <br />
+
+            <select
+              value={select}
+              onChange={onChange2}
+            >
+              {
+                coins.map((coin, index) => <option value={index} key={coin.id}>{coin.name} ({coin.symbol}): {coin.quotes.USD.price} USD</option>)
+              }
+            </select>
+            
+            <br />
+            { value / coins[select]?.quotes?.USD.price }
+          </> 
+      }
+      
+    </div>
+  )
 }
 
 export default App;
